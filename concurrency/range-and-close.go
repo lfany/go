@@ -7,6 +7,7 @@ func fibonacci(n int, c chan int) {
 	for i := 0; i < n; i++ {
 		c <- x
 		x, y = y, x+y
+		fmt.Println("x: ", x, "y: ", y)
 	}
 	close(c)
 }
