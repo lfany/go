@@ -7,7 +7,7 @@ import (
 
 func main() {
 	fmt.Println(rand.Random())
-	rand.Seed(10)
+	rand.Seed(rand.Random())
 	fmt.Println(rand.Random())
 
 }
