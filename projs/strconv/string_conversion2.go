@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -15,6 +16,10 @@ func main() {
 	// anInt, err = strconv.Atoi(origStr)
 	an, err := strconv.Atoi(orig)
 	if err != nil {
+		if err != nil {
+			fmt.Printf("Program stopping with error %v", err)
+			os.Exit(1)
+		}
 		fmt.Printf("orig %s is not an integer - exiting with error\n", orig)
 		return
 	}
