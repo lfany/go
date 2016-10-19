@@ -26,5 +26,3 @@ func main() {
 	str2 := re.ReplaceAllStringFunc(searchIn, f)
 	fmt.Println(str2)
 }
-
-

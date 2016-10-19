@@ -9,7 +9,7 @@ func main() {
 	fmt.Printf("The sum of the array is: %f", x)
 }
 
-func Sum(a *[3]float64) (sum float64){
+func Sum(a *[3]float64) (sum float64) {
 	for _, v := range a {
 		sum += v
 	}

@@ -14,6 +14,10 @@ func init() {
 	registerDemo("urlshortener", urlshortener.UrlshortenerScope, urlShortenerMain)
 }
 
+func main()  {
+	urlShortenerMain(http.DefaultClient, []string{"http://huaixiaoz.com"})
+}
+
 func urlShortenerMain(client *http.Client, argv []string) {
 	if len(argv) != 1 {
 		fmt.Fprintf(os.Stderr, "Usage: urlshortener http://goo.gl/xxxxx     (to look up details)\n")
