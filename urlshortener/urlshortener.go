@@ -1,72 +1,70 @@
+// Follow instructions here to create credentials to access google api shortener service:
+// https://developers.google.com/identity/protocols/application-default-credentials
+// I set the env variable GOOGLE_APPLICATION_CREDENTIALS with the path of the json credential file.
+
 package main
 
 import (
 	"fmt"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/urlshortener/v1"
 	"net/http"
 	"text/template"
-
-	"google.golang.org/api/urlshortener/v1"
 )
 
-const key string = "AIzaSyCsGKjNxb965WdGJB2YLSH-9P0F_nB2hmE";
-
 func main() {
-	http.HandleFunc("/", root)
-	http.HandleFunc("/short", short)
-	http.HandleFunc("/long", long)
-	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/", handleRoot)
+	http.HandleFunc("/shorten", handleShorten)
+	http.HandleFunc("/lengthen", handleLengthen)
 
-	http.ListenAndServe("0.0.0.0:88", nil)
+	http.ListenAndServe("localhost:88", nil)
 }
 
 var rootHtmlTmpl = template.Must(template.New("rootHtml").Parse(`
 <html><body>
-<h1>URL SHORTENER</h1>
+<h1>My URL Shrtnr</h1>
 {{if .}}{{.}}<br /><br />{{end}}
-<form action="/short" type="POST">
+<form action="/shorten" type="POST">
 Shorten this: <input type="text" name="longUrl" />
-<input type="submit" value="Give me the short URL" />
+<input type="submit" value="Give me short URL" />
 </form>
 <br />
-<form action="/long" type="POST">
+<form action="/lengthen" type="POST">
 Expand this: http://goo.gl/<input type="text" name="shortUrl" />
-<input type="submit" value="Give me the long URL" />
+<input type="submit" value="Give me long URL" />
 </form>
 </body></html>
 `))
 
-func root(w http.ResponseWriter, r *http.Request)  {
+func handleRoot(w http.ResponseWriter, r *http.Request) {
 	rootHtmlTmpl.Execute(w, nil)
 }
 
-func short(w http.ResponseWriter, r *http.Request)  {
+func handleShorten(w http.ResponseWriter, r *http.Request) {
 	longUrl := r.FormValue("longUrl")
-	urlshortenerSvc, _ := urlshortener.New(http.DefaultClient)
-	urlshortenerSvc.UserAgent
-	url, err := urlshortenerSvc.Url.Insert(&urlshortener.Url{LongUrl: longUrl}).Do()
+	ctx := context.Background()
+	client, err := google.DefaultClient(ctx, urlshortener.UrlshortenerScope)
 	if err != nil {
-		fmt.Printf("error: %v", err)
+		fmt.Printf("Error: %s", err.Error())
 		return
 	}
-	rootHtmlTmpl.Execute(w, fmt.Sprintf("Shortened version of %s is: %s", longUrl,
-	url.Id))
+
+	urlshortenerSvc, _ := urlshortener.New(client)
+	url, _ := urlshortenerSvc.Url.Insert(&urlshortener.Url{LongUrl: longUrl}).Do()
+	rootHtmlTmpl.Execute(w, fmt.Sprintf("Shortened version of `%s` is: %s", longUrl, url.Id))
 }
 
-func long(w http.ResponseWriter, r *http.Request) {
+func handleLengthen(w http.ResponseWriter, r *http.Request) {
 	shortUrl := "http://goo.gl/" + r.FormValue("shortUrl")
-	urlshortenerSvc, _ := urlshortener.New(http.DefaultClient)
-	url, err := urlshortenerSvc.Url.Get(shortUrl).Do()
+	ctx := context.Background()
+	client, err := google.DefaultClient(ctx, urlshortener.UrlshortenerScope)
 	if err != nil {
-		fmt.Printf("error: %v", err)
+		fmt.Printf("Error: %s", err.Error())
 		return
 	}
-	rootHtmlTmpl.Execute(w, fmt.Sprintf("Longer version of %s is: %s",
-		shortUrl, url.LongUrl))
-}
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	//fmt.Printf("%v\n%v", w, *r)
-	w.WriteHeader(204)
-	fmt.Printf("%v",w.Header())
-	w.Write([]byte("lalla啦啦啦"))
+	urlshortenerSvc, _ := urlshortener.New(client)
+	url, _ := urlshortenerSvc.Url.Get(shortUrl).Do()
+	rootHtmlTmpl.Execute(w, fmt.Sprintf("Longer version of %s is: %s", shortUrl, url.LongUrl))
 }
