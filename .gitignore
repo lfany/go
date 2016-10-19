@@ -5,3 +5,8 @@ test
 ## IntelliJ IDEA ##
 *.iml
 .idea/
+
+## test file ##
+hello.txt
+world.txt
+*.txt
