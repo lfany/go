@@ -44,3 +44,7 @@ func cat2(f *os.File) {
 		}
 	}
 }
+
+func write() {
+	fmt.Fprintf(os.Stdout, "hello")
+}
