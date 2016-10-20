@@ -21,6 +21,6 @@ func main() {
 		if err == io.EOF {
 			return
 		}
-		fmt.Printf("##%s##\n", inputString)
+		fmt.Printf("##%s", inputString)
 	}
 }
