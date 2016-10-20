@@ -21,5 +21,5 @@ func main() {
 		fmt.Printf("%v", err)
 		os.Exit(1)
 	}
-	fmt.Printf("The process id is %v", pid)
+	fmt.Printf("The process id is %v", *pid)
 }
