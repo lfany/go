@@ -31,6 +31,6 @@ func doServerStuff(conn net.Conn) {
 			fmt.Println("err read", err.Error())
 			return
 		}
-		fmt.Printf("Read: %v", string(buf))
+		fmt.Printf("Read: %v\n", string(buf))
 	}
 }
