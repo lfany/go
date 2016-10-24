@@ -5,10 +5,12 @@ import (
 	"log"
 	"fmt"
 	"strings"
+	"html/template"
 )
 
 func main() {
 	http.HandleFunc("/", sayHello)
+	http.HandleFunc("/login", login)
 	err := http.ListenAndServe(":88", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -26,4 +28,22 @@ func sayHello(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("val:", strings.Join(v, " "))
 	}
 	fmt.Fprintf(w, "hello asssss!")
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	fmt.Println("mthod: ", r.Method) // 请求的方法
+	if r.Method == "GET" {
+		t, _ := template.ParseFiles("login.gtpl")
+		t.Execute(w, nil)
+	} else {
+		fmt.Println("username: ", r.Form["username"])
+		fmt.Println("password: ", r.Form["password"])
+		//fmt.Println("xxxx: ", r)
+
+		for k, v := range r.Form {
+			fmt.Println("key:", k)
+			fmt.Println("val:", strings.Join(v, ""))
+		}
+	}
 }
