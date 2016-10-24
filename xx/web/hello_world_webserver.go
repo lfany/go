@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
-	"log"
 	"fmt"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -16,5 +16,5 @@ func main() {
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Inside HelloServer handler")
-	fmt.Fprintf(w, "Hello" + req.URL.Path[1:])
+	fmt.Fprintf(w, "Hello"+req.URL.Path[1:])
 }

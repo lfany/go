@@ -10,7 +10,7 @@ type Square struct {
 	side float32
 }
 
-func (sq *Square) Area() float32  {
+func (sq *Square) Area() float32 {
 	return sq.side * sq.side
 }
 

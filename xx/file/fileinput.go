@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"io"
 	"os"
 )
+
 func main() {
 	inputFile, inputErr := os.Open("hello.txt")
 	if inputErr != nil {
@@ -16,7 +17,7 @@ func main() {
 
 	inputReader := bufio.NewReader(inputFile)
 
-	for{
+	for {
 		inputString, err := inputReader.ReadString('\n')
 		if err == io.EOF {
 			return

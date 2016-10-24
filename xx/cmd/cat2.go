@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"os"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -12,7 +12,7 @@ func main() {
 		cat2(os.Stdin)
 	}
 
-	for i := 0; i < flag.NArg(); i ++ {
+	for i := 0; i < flag.NArg(); i++ {
 		f, err := os.Open(flag.Arg(i))
 
 		if err != nil || f == nil {
@@ -34,8 +34,8 @@ func cat2(f *os.File) {
 			fmt.Fprintf(os.Stderr, "err: %s\n", err)
 			os.Exit(1)
 		case nr == 0:
-		//	EOF
-		return
+			//	EOF
+			return
 		case nr > 0:
 			if nw, err := os.Stdout.Write(buf[0:nr]); nw != nr {
 				fmt.Fprintf(os.Stderr, "err :%v", err)

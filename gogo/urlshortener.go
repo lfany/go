@@ -14,7 +14,7 @@ func init() {
 	registerDemo("urlshortener", urlshortener.UrlshortenerScope, urlShortenerMain)
 }
 
-func main()  {
+func main() {
 	urlShortenerMain(http.DefaultClient, []string{"http://huaixiaoz.com"})
 }
 

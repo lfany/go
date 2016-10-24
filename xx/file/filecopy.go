@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"io"
+	"os"
 )
 
 func main() {
@@ -31,5 +31,3 @@ func CopyFile(dstFile string, srcFile string) (written int64, err error) {
 
 	return io.Copy(dst, src)
 }
-
-

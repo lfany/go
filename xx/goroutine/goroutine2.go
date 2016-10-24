@@ -18,7 +18,7 @@ func getData(strings chan string) {
 	var input string
 
 	for {
-		input = <- strings
+		input = <-strings
 		fmt.Printf("%s ", input)
 	}
 }
@@ -30,5 +30,3 @@ func sendData(strings chan string) {
 	strings <- "hello5"
 	strings <- "hello6"
 }
-
-

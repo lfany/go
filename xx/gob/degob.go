@@ -1,29 +1,29 @@
 package main
 
 import (
-	"os"
 	"bufio"
 	"encoding/gob"
-	"log"
 	"fmt"
+	"log"
+	"os"
 )
 
 type Address struct {
-	Type 	string
-	City	string
-	Country	string
+	Type    string
+	City    string
+	Country string
 }
 
 type VCard struct {
-	FirstName	string
-	LastName	string
-	Address		[]*Address
-	Remark 		string
+	FirstName string
+	LastName  string
+	Address   []*Address
+	Remark    string
 }
 
 var (
 	content string
-	vc VCard
+	vc      VCard
 )
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 	inReader := bufio.NewReader(file)
 	dec := gob.NewDecoder(inReader)
 	err := dec.Decode(&vc)
-	if (err != nil) {
+	if err != nil {
 		log.Println("Err in gob")
 	}
 	fmt.Println(vc)

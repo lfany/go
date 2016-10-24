@@ -6,8 +6,8 @@ import "os"
 
 var (
 	inputReader *bufio.Reader
-	input string
-	err error
+	input       string
+	err         error
 )
 
 func main() {

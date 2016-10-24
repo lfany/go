@@ -2,8 +2,8 @@ package main
 
 import (
 	"crypto/sha1"
-	"io"
 	"fmt"
+	"io"
 	"log"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	data := []byte("We shall overcome!")
 	n, err := hasher.Write(data)
 	if n != len(data) || err != nil {
-		log.Printf("Hash write error: %v / %v", n, err )
+		log.Printf("Hash write error: %v / %v", n, err)
 	}
 
 	checksum := hasher.Sum(b)

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"flag"
 	"bufio"
-	"os"
+	"flag"
 	"fmt"
 	"io"
+	"os"
 )
 
 func main() {

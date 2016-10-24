@@ -1,15 +1,15 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 func main() {
 	env := os.Environ()
 	procAttr := os.ProcAttr{
 		Env: env,
-		Files:[]*os.File{
+		Files: []*os.File{
 			os.Stdin,
 			os.Stdout,
 			os.Stderr,
@@ -17,7 +17,7 @@ func main() {
 	}
 
 	pid, err := os.StartProcess("/usr/bin/ls", []string{"ls", "-l"}, &procAttr)
-	if (err != nil) {
+	if err != nil {
 		fmt.Printf("%v", err)
 		os.Exit(1)
 	}

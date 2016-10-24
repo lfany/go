@@ -1,22 +1,22 @@
 package main
 
 import (
-	"os"
 	"encoding/gob"
 	"log"
+	"os"
 )
 
 type Address struct {
-	Type 	string
-	City	string
-	Country	string
+	Type    string
+	City    string
+	Country string
 }
 
 type VCard struct {
-	FirstName	string
-	LastName	string
-	Address		[]*Address
-	Remark 		string
+	FirstName string
+	LastName  string
+	Address   []*Address
+	Remark    string
 }
 
 var content string
@@ -32,7 +32,7 @@ func main() {
 
 	enc := gob.NewEncoder(file)
 	err := enc.Encode(vc)
-	if(err != nil) {
+	if err != nil {
 		log.Println("Err int encode")
 	}
 }

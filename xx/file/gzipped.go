@@ -2,10 +2,10 @@ package main
 
 import (
 	"bufio"
-	"os"
-	"fmt"
 	"compress/gzip"
+	"fmt"
 	"io"
+	"os"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 		print("not zip\n")
 		ff, _ := os.Open(fName)
 		r = bufio.NewReader(ff)
-	}else {
+	} else {
 		r = bufio.NewReader(fz)
 	}
 

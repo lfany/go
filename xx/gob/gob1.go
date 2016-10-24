@@ -3,13 +3,13 @@ package main
 import (
 	"bytes"
 	"encoding/gob"
-	"log"
 	"fmt"
+	"log"
 )
 
 type P struct {
 	X, Y, Z int
-	Name string
+	Name    string
 }
 
 type Q struct {

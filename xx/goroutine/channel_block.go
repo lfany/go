@@ -15,7 +15,7 @@ func main() {
 
 }
 func pump(ints chan int) {
-	for i :=0; ; i ++ {
+	for i := 0; ; i++ {
 		ints <- i
 	}
 }
@@ -26,4 +26,3 @@ func suck(ints chan int) {
 		//time.Sleep(1 * 1e9)
 	}
 }
-

@@ -5,6 +5,6 @@ type expStruct struct {
 	Mf1 float32
 }
 
-func NewExpStruct() *expStruct  {
+func NewExpStruct() *expStruct {
 	return new(expStruct)
 }

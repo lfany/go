@@ -11,9 +11,9 @@ type innerS struct {
 }
 
 type outerS struct {
-	b    int
-	c    float32
-	int  // anonymous field
+	b      int
+	c      float32
+	int    // anonymous field
 	innerS //anonymous field
 }
 
@@ -37,5 +37,5 @@ func main() {
 
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	fmt.Printf("%d Kb\n", m.Alloc / 1024)
+	fmt.Printf("%d Kb\n", m.Alloc/1024)
 }
