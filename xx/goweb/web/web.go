@@ -6,6 +6,10 @@ import (
 	"fmt"
 	"strings"
 	"html/template"
+	"time"
+	"crypto/md5"
+	"io"
+	"strconv"
 )
 
 func main() {
@@ -31,19 +35,32 @@ func sayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
 	fmt.Println("mthod: ", r.Method) // 请求的方法
 	if r.Method == "GET" {
+		currTime := time.Now().Unix()
+		h := md5.New()
+		io.WriteString(h, strconv.FormatInt(currTime, 10))
+		token := fmt.Sprintf("%x", h.Sum(nil))
+
 		t, _ := template.ParseFiles("login.gtpl")
-		t.Execute(w, nil)
+		t.Execute(w, token)
 	} else {
+		r.ParseForm()
+		token := r.Form.Get("token")
+		if token != "" {
+		//	token存在， 验证token
+		}else {
+		//	token不存在， 错误
+		}
+
 		fmt.Println("username: ", r.Form["username"])
 		fmt.Println("password: ", r.Form["password"])
 		//fmt.Println("xxxx: ", r)
+		template.HTMLEscape(w, []byte(r.Form.Get("username"))) //输出到客户端
 
-		for k, v := range r.Form {
+		/*for k, v := range r.Form {
 			fmt.Println("key:", k)
 			fmt.Println("val:", strings.Join(v, ""))
-		}
+		}*/
 	}
 }
