@@ -10,11 +10,13 @@ import (
 	"crypto/md5"
 	"io"
 	"strconv"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/", sayHello)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/upload", upload)
 	err := http.ListenAndServe(":88", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -63,4 +65,44 @@ func login(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("val:", strings.Join(v, ""))
 		}*/
 	}
+}
+
+func upload(w http.ResponseWriter, r *http.Request){
+	fmt.Println("methord: ", r.Method)
+
+	if r.Method == "GET" {
+		currTime := time.Now().Unix()
+		h := md5.New()
+		io.WriteString(h, strconv.FormatInt(currTime, 10))
+		token := fmt.Sprintf("%x", h.Sum(nil))
+		fmt.Println("Log: ##", currTime, strconv.FormatInt(currTime, 10), token)
+
+		t, _ := template.ParseFiles("upload.gtpl")
+		t.Execute(w, token)
+	}else {
+		r.ParseMultipartForm(32 << 20)
+		file, handler, err := r.FormFile("uploadFile")
+		if err != nil {
+			fmt.Println("FormFile", err)
+			return
+		}
+		defer file.Close()
+		fmt.Fprintf(w, "%v", handler.Header)
+
+		f, err := os.OpenFile("./test/" + handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		if err != nil && os.IsNotExist(err){
+			os.MkdirAll("./test", 0644)
+			ff, err := os.OpenFile("./test/" + handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+			if err != nil {
+				fmt.Println("OpenFile", err)
+				return
+			}else{
+				f = ff
+			}
+			defer ff.Close()
+		}
+		defer f.Close()
+		io.Copy(f, file)
+	}
+
 }
