@@ -11,7 +11,14 @@ import (
 	"io"
 	"strconv"
 	"os"
+	"github.com/lfany/go/xx/goweb/web/session"
 )
+
+var globalSessions *session.Manager
+//然后在init函数中初始化
+func init() {
+	globalSessions, _ = session.NewManager("memory","gosessionid",3600)
+}
 
 func main() {
 	http.HandleFunc("/", sayHello)
@@ -37,6 +44,9 @@ func sayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
+	sess := globalSessions.SessionStart(w, r)
+	r.ParseForm()
+
 	fmt.Println("mthod: ", r.Method) // 请求的方法
 	if r.Method == "GET" {
 		currTime := time.Now().Unix()
@@ -45,9 +55,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 		token := fmt.Sprintf("%x", h.Sum(nil))
 
 		t, _ := template.ParseFiles("login.gtpl")
+
+		w.Header().Set("Content-Type", "text/html")
 		t.Execute(w, token)
 	} else {
-		r.ParseForm()
 		token := r.Form.Get("token")
 		if token != "" {
 		//	token存在， 验证token
@@ -55,10 +66,13 @@ func login(w http.ResponseWriter, r *http.Request) {
 		//	token不存在， 错误
 		}
 
+		sess.Set("username", r.Form["username"])
+		fmt.Println("sess->username: ", sess.Get("username"))
+
 		fmt.Println("username: ", r.Form["username"])
 		fmt.Println("password: ", r.Form["password"])
 		//fmt.Println("xxxx: ", r)
-		template.HTMLEscape(w, []byte(r.Form.Get("username"))) //输出到客户端
+		template.HTMLEscape(w, []byte(strings.Join([]string{r.Form.Get("username"), sess.Get("username").(string)}, "##"))) //输出到客户端
 
 		/*for k, v := range r.Form {
 			fmt.Println("key:", k)
