@@ -26,6 +26,15 @@ func main() {
 
 	fmt.Println("val: ", val)
 
+	val2, err := client.Get("key2").Result()
+	if err == redis.Nil {
+		fmt.Println("key2 doesnot exists")
+	} else if err != nil {
+		panic(err)
+	}else {
+		fmt.Println("key2: ", val2)
+	}
+
 
 }
 
