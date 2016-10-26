@@ -7,14 +7,14 @@ import (
 )
 
 type Servers struct {
-	XMLName xml.Name	`xml:"servers"`
-	Version	string		`xml:"version,attr"`
-	Svs	[]server	`xml:"server"`
+	XMLName xml.Name        `xml:"servers"`
+	Version string          `xml:"version,attr"`
+	Svs     []server        `xml:"server"`
 }
 
 type server struct {
-	ServerName	string	`xml:"serverName"`
-	ServerIP	string	`xml:"serverIP"`
+	ServerName string        `xml:"serverName"`
+	ServerIP   string        `xml:"serverIP"`
 }
 
 func main() {
