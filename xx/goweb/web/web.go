@@ -175,7 +175,7 @@ func count2(w http.ResponseWriter, r *http.Request) {
 		return
 	}else{
 		sess.Set("token",token)
-		
+
 		t, _ := template.ParseFiles("count.gtpl")
 		w.Header().Set("Content-Type", "text/html")
 		t.Execute(w, sess.Get("countnum"))
