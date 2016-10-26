@@ -74,7 +74,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 		//	token不存在， 错误
 		}
 
-		sess.Set("username", r.Form["username"])
+		err := sess.Set("username", strings.Join(r.Form["username"], "#"))
+		if err != nil {
+			panic(err)
+		}
 		fmt.Println("sess->username: ", sess.Get("username"))
 
 		fmt.Println("username: ", r.Form["username"])
