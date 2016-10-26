@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/count", count)
+	http.HandleFunc("/count2", count2)
 	err := http.ListenAndServe(":88", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -141,6 +142,19 @@ func count(w http.ResponseWriter, r *http.Request) {
 		globalSessions.SessionDestroy(w, r)
 		sess = globalSessions.SessionStart(w, r)
 	}
+	ct := sess.Get("countnum")
+	if ct == nil {
+		sess.Set("countnum", 1)
+	} else {
+		sess.Set("countnum", (ct.(int) + 1))
+	}
+	t, _ := template.ParseFiles("count.gtpl")
+	w.Header().Set("Content-Type", "text/html")
+	t.Execute(w, sess.Get("countnum"))
+}
+
+func count2(w http.ResponseWriter, r *http.Request) {
+	sess := globalSessions.SessionStart(w, r)
 	ct := sess.Get("countnum")
 	if ct == nil {
 		sess.Set("countnum", 1)
