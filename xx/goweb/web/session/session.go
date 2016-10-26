@@ -8,9 +8,15 @@ import (
 	"crypto/rand"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 var provides = make(map[string]Provider)
+
+func init() {
+	//do nothing
+	//go globalSessions.GC()
+}
 
 // Register makes a session provide available by the provided name.
 // If Register is called twice with the same name or if driver is nil,
@@ -78,4 +84,26 @@ func (manager *Manager) SessionStart(w http.ResponseWriter, r *http.Request) (se
 		session, _ = manager.provider.SessionRead(sid)
 	}
 	return
+}
+
+//Destroy sessionid
+func (manager *Manager) SessionDestroy(w http.ResponseWriter, r *http.Request){
+	cookie, err := r.Cookie(manager.cookieName)
+	if err != nil || cookie.Value == "" {
+		return
+	} else {
+		manager.lock.Lock()
+		defer manager.lock.Unlock()
+		manager.provider.SessionDestroy(cookie.Value)
+		expiration := time.Now()
+		cookie := http.Cookie{Name: manager.cookieName, Path: "/", HttpOnly: true, Expires: expiration, MaxAge: -1}
+		http.SetCookie(w, &cookie)
+	}
+}
+
+func (manager *Manager) GC() {
+	manager.lock.Lock()
+	defer manager.lock.Unlock()
+	manager.provider.SessionGC(manager.maxlifetime)
+	time.AfterFunc(time.Duration(manager.maxlifetime), func() { manager.GC() })
 }
