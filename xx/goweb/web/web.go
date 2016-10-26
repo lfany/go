@@ -154,6 +154,9 @@ func count(w http.ResponseWriter, r *http.Request) {
 }
 
 func count2(w http.ResponseWriter, r *http.Request) {
+
+
+
 	sess := globalSessions.SessionStart(w, r)
 	ct := sess.Get("countnum")
 	if ct == nil {
@@ -161,7 +164,21 @@ func count2(w http.ResponseWriter, r *http.Request) {
 	} else {
 		sess.Set("countnum", (ct.(int) + 1))
 	}
-	t, _ := template.ParseFiles("count.gtpl")
-	w.Header().Set("Content-Type", "text/html")
-	t.Execute(w, sess.Get("countnum"))
+
+	h := md5.New()
+	salt:="hello%^7&8888"
+	io.WriteString(h,salt+time.Now().String())
+	token:=fmt.Sprintf("%x",h.Sum(nil))
+	if strings.Join(r.Form["token"], "")!=token{
+		//提示登录
+		w.Write([]byte("<script>alert(\"you are not login!\")</script>"))
+		return
+	}else{
+		sess.Set("token",token)
+		
+		t, _ := template.ParseFiles("count.gtpl")
+		w.Header().Set("Content-Type", "text/html")
+		t.Execute(w, sess.Get("countnum"))
+	}
+
 }
