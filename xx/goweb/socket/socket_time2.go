@@ -25,7 +25,7 @@ func main() {
 	}
 }
 func handleClient(conn net.Conn) {
-	conn.SetReadDeadline(time.Now().Add(2 * time.Minute)) // set 2 minutes timeout
+	conn.SetReadDeadline(time.Now().Add(5 * time.Second)) // set 2 minutes timeout
 	request := make([]byte, 128)
 	defer conn.Close()
 	for {
