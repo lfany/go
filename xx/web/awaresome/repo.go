@@ -7,6 +7,7 @@ import (
 	"os"
 	"fmt"
 	"github.com/russross/blackfriday"
+	"github.com/fairlyblank/md2min"
 )
 
 const (
@@ -97,9 +98,21 @@ func serverHandler(w http.ResponseWriter, r *http.Request) {
 	//w.Write(file)
 }
 
+func md2htmlHandler(w http.ResponseWriter, r *http.Request) {
+	ch := make(chan string)
+	go doWithHtml(ch)
+
+	md := md2min.New("none")
+	err := md.Parse([]byte(<-ch), w)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", serverHandler)
+	router.HandleFunc("/{*}", md2htmlHandler)
 	err := http.ListenAndServe(":9000", router)
 	if err != nil {
 		panic(err)
