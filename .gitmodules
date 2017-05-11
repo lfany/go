@@ -1,0 +1,3 @@
+[submodule "src/appengine-guestbook"]
+	path = src/appengine-guestbook
+	url = https://github.com/lfany/appengine-guestbook-go
