@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"bytes"
 	"compress/gzip"
+	"encoding/json"
 )
 
 func main() {
@@ -37,26 +38,26 @@ func main() {
 	req.Header.Add("cache-control", "no-cache")
 	req.Header.Add("postman-token", "badee672-b34a-40b8-6e3f-acf53c68293a")
 
-	fmt.Println("---------request-------\n", req, "----------------\n")
+	//fmt.Println("---------request-------\n", req, "----------------\n")
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Println("--------err-req--------\n", err, "----------------\n")
 	}
 
-	fmt.Println("--------res-Header--------\n", res.Header, "----------------\n")
+	//fmt.Println("--------res-Header--------\n", res.Header, "----------------\n")
 
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	fmt.Println("--------response--------\n", res, "----------------\n")
+	//fmt.Println("--------response--------\n", res, "----------------\n")
 
 	if res.Header.Get("Content-Encoding") == "gzip" {
 		reader, err := gzip.NewReader(bytes.NewReader(body))
 		if err != nil {
 			fmt.Println("------err-ungzip----------\n", err, "----------------\n")
 		}
-		fmt.Println("------res-Header2----------\n", res.Header, "----------------\n")
+		//fmt.Println("------res-Header2----------\n", res.Header, "----------------\n")
 		body, _ = ioutil.ReadAll(reader)
 	}
 
@@ -66,4 +67,20 @@ func main() {
 		println("--------err-read--------\n", err, "----------------\n")
 	}
 
+	var response SwiftResponse
+
+	json.Unmarshal(body, &response)
+
+	fmt.Println(response)
+
+	fmt.Println(response.Code)
+
+}
+
+type SwiftResponse struct {
+	Output string
+	Langid int
+	Code   string
+	Errors string
+	Time   string
 }
