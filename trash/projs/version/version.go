@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/lfany/go/projs/stringutil"
+	"github.com/lfany/go/trash/projs/stringutil"
 	"runtime"
 )
 

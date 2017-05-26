@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/lfany/go/projs/c"
+	"github.com/lfany/go/trash/projs/c"
 )
 
 func main() {

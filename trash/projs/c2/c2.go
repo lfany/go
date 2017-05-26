@@ -1,7 +1,7 @@
 package main
 
 // import "fmt"
-import "github.com/lfany/go/projs/print"
+import "github.com/lfany/go/trash/projs/print"
 
 func main() {
 	s := "abc"
