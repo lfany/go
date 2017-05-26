@@ -73,14 +73,14 @@ func main() {
 
 	fmt.Println(response)
 
-	fmt.Println(response.Code)
+	fmt.Println(response.Output)
 
 }
 
 type SwiftResponse struct {
-	Output string
-	Langid int
-	Code   string
-	Errors string
-	Time   string
+	Output string	`json:"output, string"`
+	Langid int	`json:"langid, int"`
+	Code   string	`json:"code, string"`
+	Errors string	`json:"errors, string"`
+	Time   string	`json:"time, string"`
 }
