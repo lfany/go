@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/lfany/go/trash/gogo/structPack"
 	"fmt"
-	"github.com/lfany/go/gogo/structPack"
 )
 
 func main() {

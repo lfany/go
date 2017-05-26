@@ -10,9 +10,9 @@ import (
 	urlshortener "google.golang.org/api/urlshortener/v1"
 )
 
-func init() {
-	registerDemo("urlshortener", urlshortener.UrlshortenerScope, urlShortenerMain)
-}
+//func init() {
+//	registerDemo("urlshortener", urlshortener.UrlshortenerScope, urlShortenerMain)
+//}
 
 func main() {
 	urlShortenerMain(http.DefaultClient, []string{"http://huaixiaoz.com"})
