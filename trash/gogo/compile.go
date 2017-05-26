@@ -75,12 +75,35 @@ func main() {
 
 	fmt.Println(response.Output)
 
+	var vv interface{}
+	json.Unmarshal(body, &vv)
+	m := vv.(map[string]interface{})
+
+	for k, v := range m {
+		switch vt := v.(type) {
+		case string:
+			fmt.Println(k, vt, v)
+		case int:
+			fmt.Println(k, vt, v)
+		case float64:
+			fmt.Println(k, vt, v)
+		case []interface{}:
+			fmt.Println(k, vt, v)
+			for i, u := range vt {
+				fmt.Println(i, u)
+			}
+
+		}
+	}
+
+	fmt.Println(vv)
+
 }
 
 type SwiftResponse struct {
-	Output string	`json:"output, string"`
-	Langid int	`json:"langid, int"`
-	Code   string	`json:"code, string"`
-	Errors string	`json:"errors, string"`
-	Time   string	`json:"time, string"`
+	Output string        `json:"output, string"`
+	Langid int        `json:"langid, int"`
+	Code   string        `json:"code, string"`
+	Errors string        `json:"errors, string"`
+	Time   string        `json:"time, string"`
 }
