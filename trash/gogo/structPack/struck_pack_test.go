@@ -19,3 +19,35 @@ func TestNew(t *testing.T) {
 		t.Fatal(expStruct)
 	}
 }
+
+const name = iota
+const hello = iota
+
+const (
+	a = 1 << iota
+	b
+	c
+	d
+)
+
+const (
+	B float32  = 1 << (iota * 10)
+	KB
+	MB
+	GB
+	TB
+	PB
+	EB
+	ZB
+	YB
+)
+
+func TestIota(t *testing.T) {
+	t.Log(name)
+	t.Log(hello)
+	t.Log(a)
+	t.Log(b)
+	t.Log(c)
+	t.Log(d)
+	t.Log(B, KB, MB, GB, TB, PB, EB, ZB, YB)
+}

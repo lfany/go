@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+
+// 正则表达式的使用
 func main() {
 	searchIn := "John: 2578.34 William: 4567.23 Steve: 5632.18"
 	pat := "[0-9]+.[0-9]+"
